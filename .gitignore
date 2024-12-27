@@ -49,3 +49,6 @@ gcpCorsConfig.json
 
 # uploads
 /uploads
+
+# Ignore package-lock.json
+package-lock.json
