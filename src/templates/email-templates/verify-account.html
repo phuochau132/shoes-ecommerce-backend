@@ -1,0 +1,87 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Verify your email address</title>
+    <style>
+      .container {
+        margin: auto;
+        border-radius: 5px;
+
+        padding: 30px 20px 50px;
+        width: 400px;
+        border: 1px;
+      }
+      .logo {
+        width: 150px;
+        display: inline-block;
+        margin: 0 !important;
+      }
+      .logo img {
+        width: 100%;
+      }
+      .logo-wrapper {
+        text-align: center;
+      }
+      .title h3 {
+        font-size: 25px;
+        font-weight: bold;
+        text-align: center;
+        margin: 0 !important;
+      }
+      .content {
+        margin-top: 10px;
+        opacity: 0.5;
+        text-align: justify;
+      }
+      .link-wrapper {
+        margin-top: 30px;
+        text-align: center;
+      }
+      .link {
+        display: block;
+        font-size: 15px;
+        color: white !important;
+        text-decoration: none;
+        background-color: #41ae39;
+        padding: 10px 20px;
+        color: white;
+        font-weight: bold;
+        border-radius: 5px;
+        margin: auto;
+      }
+      .link:hover {
+        color: black !important;
+      }
+    </style>
+  </head>
+  <body style="background-color: #f2f2f2; padding: 50px 0">
+    <div style="background-color: white" class="container">
+      <div class="logo-wrapper">
+        <h1 class="logo">
+          <a href="/">
+            <img
+              src="https://res.cloudinary.com/dvgjegefi/image/upload/v1734491076/logo_usfwfm.png"
+              alt="Serentylane logo"
+            />
+          </a>
+        </h1>
+      </div>
+      <div class="title">
+        <h3>Verify your email address</h3>
+      </div>
+      <p class="content">
+        Please confirm that you want to use this as your ShoesShop account email
+        address. Once It's done you will be able to start selling.
+      </p>
+      <div class="link-wrapper">
+        <a
+          class="link"
+          href="<%= baseUrl %>/api/v1/auth/verify-email?token=<%= token %>"
+          >Verify my email</a
+        >
+      </div>
+    </div>
+  </body>
+</html>
