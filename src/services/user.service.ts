@@ -1,16 +1,21 @@
-import { Service } from 'typedi';
+import { Inject, Service } from 'typedi';
 import { Repository } from 'typeorm';
 import { InjectRepository } from 'typeorm-typedi-extensions';
 
 import { UserRegisterDto, UserUpdateDto } from '@/interfaces/user';
-import User from '@/models/user.model';
+import User, { WishList } from '@/models/user.model';
 import { hashPassword } from '@/utils/auth';
+import ApiError from '@/errors/ApiError';
+import ProductService from './product.service';
 
 @Service()
 export default class UserService {
   constructor(
     @InjectRepository(User)
     private userRepository: Repository<User>,
+    @InjectRepository(WishList)
+    private wishlistRepository: Repository<WishList>,
+    @Inject() private productService: ProductService,
   ) {}
 
   async createUser(userRegisterDto: UserRegisterDto) {

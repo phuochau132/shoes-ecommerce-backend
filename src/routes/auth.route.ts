@@ -49,7 +49,7 @@ router
 router
   .route('/info')
   .get(
-    [verifyToken, isVerified],
+    [verifyToken],
     async (req: Request, res: Response, next: NextFunction) => {
       let image = req.user.image;
       if (!image) {
