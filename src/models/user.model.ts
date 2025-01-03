@@ -2,15 +2,17 @@ import {
   BeforeInsert,
   Column,
   Entity,
+  JoinColumn,
+  ManyToOne,
   OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-
 import Timestamp from '.';
 
 import { hashPassword } from '@/utils/auth';
 import RefreshToken from './refresh-token.model';
+import Product from './product.model';
 
 export enum UserRole {
   ADMIN = 'admin',
@@ -56,8 +58,24 @@ export default class User {
   @Column(() => Timestamp, { prefix: false })
   timestamp: Timestamp;
 
+  @OneToMany(() => WishList, (wishlist) => wishlist.user)
+  wishlists: WishList[];
+
   @BeforeInsert()
   async hashPassword() {
     this.password = await hashPassword(this.password);
   }
+}
+
+@Entity('wishlist')
+export class WishList {
+  @PrimaryGeneratedColumn('increment')
+  id: number;
+
+  @Column({ type: 'int', nullable: false })
+  product_id: number;
+
+  @ManyToOne(() => User, (user) => user.wishlists, { onDelete: 'CASCADE' })
+  @JoinColumn({ name: 'user_id' })
+  user: User;
 }
