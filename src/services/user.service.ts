@@ -1,16 +1,22 @@
-import { Service } from 'typedi';
+import { Inject, Service } from 'typedi';
 import { Repository } from 'typeorm';
 import { InjectRepository } from 'typeorm-typedi-extensions';
 
 import { UserRegisterDto, UserUpdateDto } from '@/interfaces/user';
-import User from '@/models/user.model';
+import User, { WishList } from '@/models/user.model';
 import { hashPassword } from '@/utils/auth';
+import ApiError from '@/errors/ApiError';
+import ProductService from './product.service';
+import Product from '@/models/product.model';
 
 @Service()
 export default class UserService {
   constructor(
     @InjectRepository(User)
     private userRepository: Repository<User>,
+    @InjectRepository(WishList)
+    private wishlistRepository: Repository<WishList>,
+    @Inject() private productService: ProductService,
   ) {}
 
   async createUser(userRegisterDto: UserRegisterDto) {
@@ -24,6 +30,27 @@ export default class UserService {
     });
 
     return await this.userRepository.save(user);
+  }
+
+  async getProfile(userParam: User) {
+    const user = await this.userRepository.findOne({
+      relations: ['wishlists'],
+      where: { id: userParam.id },
+    });
+    if (!user) {
+      throw new ApiError({
+        message: 'User not found',
+      });
+    }
+    // @ts-ignore
+    delete user.password;
+    return {
+      ...user,
+      image:
+        user.image == 'default_image.png'
+          ? `http://localhost:8080/static/images/${user.image}`
+          : user.image,
+    };
   }
   async updateUser(userId: string, user: UserUpdateDto) {
     const partialEntity = user;
@@ -53,5 +80,63 @@ export default class UserService {
   async getStatistics() {
     const count = await this.userRepository.count();
     return count;
+  }
+  async getWishlistByUserId(user: User) {
+    const wishlists = await this.wishlistRepository.find({
+      where: { user: user },
+    });
+    const products = await this.productService.getProductsByIds({
+      ids: wishlists.map((wishlist) => wishlist.product_id),
+    });
+    const wishlistWithProducts = wishlists.map((wishlist) => {
+      const product = products.find((p) => p.id === wishlist.product_id);
+      return {
+        wishlist_id: wishlist.id,
+        product: product ? product : null,
+      };
+    });
+    return wishlistWithProducts;
+  }
+  async addWishList({
+    productId,
+    userParam,
+  }: {
+    productId: number;
+    userParam: User;
+  }) {
+    const product = await this.productService.getBasicProductInfo(productId);
+    if (!product) {
+      throw new ApiError({
+        message: 'Product Not Found',
+      });
+    }
+    const user = await this.userRepository.findOneOrFail(userParam.id);
+    if (user) {
+      await this.wishlistRepository.save({
+        product_id: productId,
+        user,
+      });
+    }
+    return { message: 'Wishlist added successfully' };
+  }
+  async removeWishList({ id, userParam }: { id: number; userParam: User }) {
+    const user = await this.userRepository.findOneOrFail({
+      where: { id: userParam.id },
+    });
+
+    const wishlist = await this.wishlistRepository.findOne({
+      where: { id: id },
+    });
+    const rs = await this.getWishlistByUserId(user);
+
+    if (!wishlist) {
+      throw new ApiError({
+        message: 'Wishlist not found or does not belong to the user',
+      });
+    }
+
+    await this.wishlistRepository.remove(wishlist);
+
+    return { message: 'Wishlist removed successfully' };
   }
 }
