@@ -1,10 +1,8 @@
 import { StatusCodes } from 'http-status-codes';
-import { sign } from 'jsonwebtoken';
 import { Inject, Service } from 'typedi';
-import { EntityManager, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { InjectRepository } from 'typeorm-typedi-extensions';
 
-import config from '@/config';
 import ApiError from '@/errors/ApiError';
 import {
   UserLoginDto,
@@ -94,10 +92,6 @@ export default class AuthService {
     return user;
   }
 
-  async updateProfile(id: string, updateData: UserUpdateDto) {
-    await this.userService.updateUser(id, updateData);
-    return updateData;
-  }
   async verifyRefreshToken(requestToken: string) {
     const refreshToken = await this.refreshTokenRepository.findOne({
       where: { token: requestToken },
@@ -113,13 +107,11 @@ export default class AuthService {
 
     if (refreshToken.verifyExpiration()) {
       this.refreshTokenRepository.delete(refreshToken);
-
       throw new ApiError({
         status: StatusCodes.FORBIDDEN,
         message: 'Refresh token expired!',
       });
     }
-
     const newToken = createToken(refreshToken.user.id);
 
     return newToken;

@@ -14,7 +14,7 @@ export const verifyToken: RequestHandler = async (req, res, next) => {
       token = req.query.token as string;
     }
 
-    if (!token) {
+    if (!token || token == 'undefined') {
       throw new ApiError({
         status: StatusCodes.FORBIDDEN,
         message: 'Token not provided!!',
@@ -29,7 +29,7 @@ export const verifyToken: RequestHandler = async (req, res, next) => {
     if (!user) {
       throw new ApiError({
         status: StatusCodes.FORBIDDEN,
-        message: 'Token is not valid!',
+        message: 'Please log in to continue.!',
       });
     }
     req.user = user;
