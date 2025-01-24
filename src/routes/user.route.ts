@@ -5,7 +5,6 @@ import { isVerified, verifyToken } from '@/middlewares/auth';
 import validate from '@/middlewares/validate';
 import UserService from '@/services/user.service';
 import userValidation from '@/validations/user.validation';
-import { log } from 'node:console';
 
 const router = Router();
 
