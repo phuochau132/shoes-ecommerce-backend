@@ -5,7 +5,6 @@ import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import { createConnection, useContainer } from 'typeorm';
 import { Container } from 'typeorm-typedi-extensions';
-
 import config from '@/config';
 import errorMiddleware from '@/middlewares/error';
 import routes from '@/routes';
@@ -30,6 +29,7 @@ const startServer = async () => {
       credentials: true,
     }),
   );
+
   await createConnection();
   app.use('/static', express.static('uploads'));
   const apiRoutes = express.Router();

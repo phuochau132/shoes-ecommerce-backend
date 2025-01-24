@@ -5,11 +5,10 @@ import {
   PrimaryGeneratedColumn,
   ManyToOne,
   JoinColumn,
-  OneToOne,
-  CreateDateColumn,
 } from 'typeorm';
 import Timestamp from '.';
 import User from './user.model';
+import Collection from './collection.model';
 
 // Product Entity
 @Entity('product')
@@ -43,6 +42,11 @@ export default class Product {
   })
   variants: ProductVariant[];
 
+  @OneToMany(
+    () => ProductCollections,
+    (product_collection) => product_collection.product,
+  )
+  product_collections: ProductCollections[];
   @OneToMany(() => Review, (review) => review.product, {
     cascade: true,
   })
@@ -184,7 +188,22 @@ export class Review {
 
   @Column({ type: 'varchar', nullable: true })
   title: string;
+}
 
-  @CreateDateColumn()
-  created_at: Date;
+@Entity('product_collection')
+export class ProductCollections {
+  @PrimaryGeneratedColumn('increment')
+  id: number;
+
+  @ManyToOne(() => Product, (product) => product.product_collections, {
+    onDelete: 'CASCADE',
+  })
+  @JoinColumn({ name: 'product_id' })
+  product: Product;
+
+  @ManyToOne(() => Collection, (collection) => collection.product_collections, {
+    onDelete: 'CASCADE',
+  })
+  @JoinColumn({ name: 'collection_id' })
+  collection: Collection;
 }

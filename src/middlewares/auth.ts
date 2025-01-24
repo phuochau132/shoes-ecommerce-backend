@@ -1,6 +1,5 @@
 import { RequestHandler } from 'express';
 import { StatusCodes } from 'http-status-codes';
-import { verify } from 'jsonwebtoken';
 import { getRepository } from 'typeorm';
 
 import ApiError from '@/errors/ApiError';
