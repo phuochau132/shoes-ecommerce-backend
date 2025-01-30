@@ -53,9 +53,16 @@ export default class UserService {
     };
   }
   async updateUser(userId: string, user: UserUpdateDto) {
-    const partialEntity = user;
-    return this.userRepository.update(userId, partialEntity);
+    const existingUser = await this.userRepository.findOne({ id: userId });
+    if (!existingUser) {
+      throw new ApiError({
+        message: 'User not found',
+      });
+    }
+    const updatedUser = { ...existingUser, ...user };
+    return this.userRepository.save(updatedUser);
   }
+
   async updatePassword(userId: string, password: string) {
     const hashedPassword = await hashPassword(password);
     return this.userRepository.update(userId, { password: hashedPassword });

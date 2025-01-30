@@ -25,7 +25,7 @@ export default class CollectionService {
       collectionHandle,
       filters,
       page,
-      10,
+      filters.limit || 8,
     );
     const collection = await this.collectionRepository.findOne({
       where: { handle: collectionHandle },

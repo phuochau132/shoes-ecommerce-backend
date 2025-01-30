@@ -98,13 +98,45 @@ export default class ProductService {
 
     return this.handleFormatVariant(product);
   }
+  async getProductById(id: number) {
+    // Fetch product with its variants in a single query
+    const product = await this.productRepository.findOne({
+      where: { id },
+      relations: [
+        'reviews',
+        'reviews.user',
+        'images',
+        'variants',
+        'variants.option_values',
+        'variants.option_values.option_value',
+        'variants.option_values.option_value.option',
+      ],
+    });
+
+    if (!product) {
+      throw new ApiError({
+        status: StatusCodes.NOT_FOUND,
+        message: 'Product not found!',
+      });
+    }
+
+    product.reviews.forEach((review) => {
+      if (review.user) {
+        delete (review.user as any).password;
+        delete (review.user as any).timestamp;
+      }
+    });
+
+    return this.handleFormatVariant(product);
+  }
   async handleFormatVariant(product: Product) {
     let productResult: { variants: any[]; [key: string]: any } = {
       variants: [],
     };
     const productVariants = product.variants.map((variant) => {
+      const { option_values, ...rest } = variant;
       const object: { id: number; options: OptionValue[] } = {
-        ...variant,
+        ...rest,
         options: [],
       };
 
@@ -171,12 +203,10 @@ export default class ProductService {
       .innerJoin('product.product_collections', 'product_collections')
       .innerJoin('product_collections.collection', 'collection')
       .where('collection.handle = :collectionHandle', { collectionHandle });
-
     // page limit
     queryBuilder.skip((page - 1) * limit).take(limit);
     // add variant filter
     let filterConditions: string[] = [];
-    let parameters: { [key: string]: string } = {};
 
     Object.keys(filters).forEach((key, index) => {
       if (key.startsWith('filter.option.')) {

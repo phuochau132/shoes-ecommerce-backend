@@ -9,6 +9,7 @@ import {
 import Timestamp from '.';
 import User from './user.model';
 import Collection from './collection.model';
+import { decimalTransformer } from '@/utils/decimalTransformerl';
 
 // Product Entity
 @Entity('product')
@@ -19,7 +20,7 @@ export default class Product {
   @Column({ type: 'varchar', nullable: false })
   title: string;
 
-  @Column({ type: 'decimal', nullable: false })
+  @Column({ type: 'decimal', nullable: false, transformer: decimalTransformer })
   price: number;
 
   @Column({ type: 'text', nullable: false })
@@ -90,7 +91,7 @@ export class ProductVariant {
   @Column({ type: 'varchar', nullable: false })
   sku: string;
 
-  @Column({ type: 'decimal', nullable: false })
+  @Column({ type: 'decimal', nullable: false, transformer: decimalTransformer })
   price: number;
 
   @Column({ type: 'int', nullable: false })
@@ -188,6 +189,9 @@ export class Review {
 
   @Column({ type: 'varchar', nullable: true })
   title: string;
+
+  @Column({ type: 'datetime', nullable: true })
+  created_at: string;
 }
 
 @Entity('product_collection')
