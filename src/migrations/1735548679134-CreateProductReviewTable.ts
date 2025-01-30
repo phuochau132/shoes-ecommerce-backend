@@ -43,6 +43,12 @@ export class CreateReviewsTable1735548679134 implements MigrationInterface {
             type: 'int',
             isNullable: false,
           },
+          {
+            name: 'created_at',
+            type: 'datetime',
+            length: '6',
+            default: 'now()',
+          },
         ],
       }),
       true,

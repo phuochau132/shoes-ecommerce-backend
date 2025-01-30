@@ -40,7 +40,6 @@ router
           req.user.id,
           req.body,
         );
-
         return res.status(StatusCodes.OK).json({
           message: 'Success.',
           data: updatedUser,
