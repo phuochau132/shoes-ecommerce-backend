@@ -66,6 +66,27 @@ export async function sendEmail(
   }
 }
 
+export async function sendContactEmail(
+  from: string,
+  subject: string,
+  message: string,
+) {
+  const mailOptions = {
+    from,
+    to: 'nguyenhauxmvt@gmail.com',
+    subject,
+    html: `<p>${message}</p>`,
+  };
+
+  try {
+    await transporter.sendMail(mailOptions);
+    return true;
+  } catch (error) {
+    console.error('Error sending contact email:', error);
+    return false;
+  }
+}
+
 const renderTemplate = async (
   templatePath: string,
   data: Record<string, any>,

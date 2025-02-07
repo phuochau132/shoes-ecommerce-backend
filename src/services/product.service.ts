@@ -19,13 +19,7 @@ export default class ProductService {
     private userRepository: Repository<User>,
   ) {}
 
-  /**
-   * Get product by ID with related images
-   * @param id - Product ID
-   * @returns Product with related images
-   */
-  async getProductsByIds({ ids }: { ids: number[] }) {
-    // Fetch product with its variants in a single query
+  async getProductByIDs(ids: number[]) {
     const products = await this.productRepository.find({
       where: { id: In(ids) },
       relations: [
@@ -38,37 +32,36 @@ export default class ProductService {
         'variants.option_values.option_value.option',
       ],
     });
-    if (products) {
-      return products.map((product) => {
-        let productResult: { variants: any[]; [key: string]: any } = {
-          ...product,
-          variants: [],
-        };
 
-        const productVariants = product.variants.map((variant) => {
-          return {
-            ...variant,
-            options: variant.option_values.map(
-              (optionValue) => optionValue.option_value,
-            ),
-          };
-        });
-
-        productResult.variants = productVariants;
-
-        return productResult;
+    if (!products.length) {
+      throw new ApiError({
+        status: StatusCodes.NOT_FOUND,
+        message: 'Products not found!',
       });
     }
 
-    return [];
+    products.forEach((product) => {
+      product.reviews.forEach((review) => {
+        if (review.user) {
+          delete (review.user as any).password;
+          delete (review.user as any).timestamp;
+        }
+      });
+    });
+
+    return {
+      products: await Promise.all(
+        products.map((product) => this.handleFormatVariant(product)),
+      ),
+    };
   }
+
   async getBasicProductInfo(productId: number) {
     return await this.productRepository.findOne({
       where: { id: productId },
     });
   }
   async getProductByHandle(handle: string) {
-    // Fetch product with its variants in a single query
     const product = await this.productRepository.findOne({
       where: { handle },
       relations: [
@@ -191,7 +184,7 @@ export default class ProductService {
     }
   }
 
-  async getProductsByCollectionHandle(
+  async getProductsDetailsByCollectionHandle(
     collectionHandle: string,
     filters: any,
     page: number = 1,
@@ -288,6 +281,7 @@ export default class ProductService {
       total,
     };
   }
+
   async filterProducts(query: string) {
     const products = await this.productRepository.find({
       where: [{ title: Like(`%${query}%`) }, { vendor: Like(`%${query}%`) }],

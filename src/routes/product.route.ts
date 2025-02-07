@@ -10,15 +10,12 @@ const router = Router();
 router.route('/').post(async (req, res, next) => {
   try {
     const productServiceInstance = Container.get(ProductService);
-    const products = await productServiceInstance.getProductsByIds({
-      ids: req.body.ids,
-    });
+    const ids = req.body.ids;
+    const response = await productServiceInstance.getProductByIDs(ids);
 
     return res.status(StatusCodes.OK).json({
       message: 'Success.',
-      data: {
-        products: products,
-      },
+      data: response,
     });
   } catch (error) {
     return next(error);

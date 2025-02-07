@@ -21,12 +21,13 @@ export default class CollectionService {
     filters: any;
   }) {
     const page = filters.page ? filters.page : 1;
-    const result = await this.productService.getProductsByCollectionHandle(
-      collectionHandle,
-      filters,
-      page,
-      filters.limit || 8,
-    );
+    const result =
+      await this.productService.getProductsDetailsByCollectionHandle(
+        collectionHandle,
+        filters,
+        page,
+        filters.limit || 8,
+      );
     const collection = await this.collectionRepository.findOne({
       where: { handle: collectionHandle },
     });
@@ -37,6 +38,14 @@ export default class CollectionService {
       ...collection,
       products: result.products,
       total: result.total,
+    };
+  }
+  async getAllCollection() {
+    const collections = await this.collectionRepository.find({
+      relations: ['product_collections', 'product_collections.product'],
+    });
+    return {
+      collections,
     };
   }
 }

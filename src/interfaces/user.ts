@@ -1,11 +1,11 @@
 import { UserRole } from '@/models/user.model';
 
-export class UserLoginDto {
+export interface UserLoginDto {
   email: string;
   password: string;
 }
 
-export class UserRegisterDto {
+export interface UserRegisterDto {
   full_name: string;
   telephone: string;
   address: string;
@@ -15,7 +15,7 @@ export class UserRegisterDto {
   image?: string;
 }
 
-export class UserUpdateDto {
+export interface UserUpdateDto {
   id: string;
   full_name: string;
   telephone: string;
@@ -24,11 +24,11 @@ export class UserUpdateDto {
   image: string;
 }
 
-export class UserResetPassDto {
+export interface UserResetPassDto {
   email: string;
 }
 
-export class UserType {
+export interface UserType {
   id: string;
   full_name: string;
   telephone: string;

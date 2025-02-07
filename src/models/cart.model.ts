@@ -12,8 +12,8 @@ import { decimalTransformer } from '@/utils/decimalTransformerl';
 
 @Entity('cart')
 export default class Cart {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
+  @PrimaryGeneratedColumn('increment')
+  id: number;
 
   @ManyToOne(() => User, { nullable: false, onDelete: 'CASCADE' })
   @JoinColumn({ name: 'user_id' })
