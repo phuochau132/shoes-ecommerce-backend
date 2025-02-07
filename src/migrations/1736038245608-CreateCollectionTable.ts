@@ -19,6 +19,11 @@ export class CreateCollectionTable1736038245608 implements MigrationInterface {
             isNullable: false,
           },
           {
+            name: 'image',
+            type: 'varchar',
+            isNullable: false,
+          },
+          {
             name: 'description',
             type: 'varchar',
             isNullable: false,

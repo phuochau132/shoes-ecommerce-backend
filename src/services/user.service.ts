@@ -92,11 +92,11 @@ export default class UserService {
     const wishlists = await this.wishlistRepository.find({
       where: { user: user },
     });
-    const products = await this.productService.getProductsByIds({
-      ids: wishlists.map((wishlist) => wishlist.product_id),
-    });
+    const data = await this.productService.getProductByIDs(
+      wishlists.map((wishlist) => wishlist.product_id),
+    );
     const wishlistWithProducts = wishlists.map((wishlist) => {
-      const product = products.find((p) => p.id === wishlist.product_id);
+      const product = data.products.find((p) => p.id === wishlist.product_id);
       return {
         wishlist_id: wishlist.id,
         product: product ? product : null,

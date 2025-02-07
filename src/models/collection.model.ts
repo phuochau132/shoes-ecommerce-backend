@@ -15,6 +15,9 @@ export default class Collection {
   @Column({ type: 'varchar', nullable: false })
   handle: string;
 
+  @Column({ type: 'varchar', nullable: false })
+  image: string;
+
   @OneToMany(
     () => ProductCollections,
     (product_collections) => product_collections.collection,

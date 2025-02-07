@@ -25,4 +25,20 @@ router
       return next(error);
     }
   });
+router
+  .route('/')
+  .get(async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const collectionServiceInstance = Container.get(CollectionService);
+      const response = await collectionServiceInstance.getAllCollection();
+      return res.status(StatusCodes.OK).json({
+        message: 'Success.',
+        data: {
+          ...response,
+        },
+      });
+    } catch (error) {
+      return next(error);
+    }
+  });
 export default router;

@@ -1,6 +1,6 @@
 import { UserType } from './user';
 
-export class AddToCartDto {
+export interface AddToCartDto {
   user: UserType;
   productId: number;
   variantId: number;

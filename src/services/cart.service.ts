@@ -7,6 +7,7 @@ import { InjectRepository } from 'typeorm-typedi-extensions';
 import ProductService from './product.service';
 import { UserType } from '@/interfaces/user';
 import Product, { ProductVariant } from '@/models/product.model';
+import Order from '@/models/order.model';
 
 @Service()
 export default class CartService {
@@ -210,6 +211,9 @@ export default class CartService {
       });
     }
     // filter variant
+    return this.filterVariant(cart);
+  }
+  async filterVariant(cart: Cart | Order) {
     const { items, ...rest } = cart;
     const newItems = cart.items.map((item) => {
       const itemClone = { ...item };
@@ -234,10 +238,33 @@ export default class CartService {
         };
       }
     });
-    const cartResponse = {
+    const response = {
       ...rest,
       items: newItems,
     };
-    return cartResponse;
+    return response;
+  }
+  async clearCart(user: UserType) {
+    const cart = await this.cartRepository.findOne({
+      where: { user },
+      relations: ['items'],
+    });
+    if (!cart) return;
+    await this.cartItemRepository.remove(cart.items);
+    cart.items = [];
+    await this.cartRepository.save(cart);
+  }
+
+  async getCartByUser(user: UserType) {
+    const cart = await this.cartRepository.findOne({
+      where: { user },
+      relations: ['items', 'items.product'],
+    });
+    if (!cart) {
+      throw new ApiError({
+        message: 'Cart not found',
+      });
+    }
+    return cart;
   }
 }
