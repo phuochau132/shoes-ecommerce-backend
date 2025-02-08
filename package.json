@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "node ./src/index.js",
-    "build": "tsc",
-    "serve": "node ./build/index.js",
+    "build": "tsc && tsc-alias",
+    "serve": "node -r ./dist/app.js",
     "dev": "nodemon",
     "lint": "eslint src",
     "lint:fix": "eslint --fix src && npm run format",
@@ -43,6 +43,7 @@
     "nanoid": "^3.1.30",
     "nodemailer": "^6.9.16",
     "reflect-metadata": "^0.1.13",
+    "tsc-alias": "^1.8.10",
     "typedi": "^0.10.0",
     "typeorm": "^0.2.41",
     "typeorm-typedi-extensions": "^0.4.1"

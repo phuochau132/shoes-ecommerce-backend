@@ -5,7 +5,7 @@
     "module": "commonjs",
     "moduleResolution": "node",
     "rootDir": "./src",
-    "outDir": "./build",
+    "outDir": "./dist",
     "sourceMap": true,
     "esModuleInterop": true,
     "experimentalDecorators": true,

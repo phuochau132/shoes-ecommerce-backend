@@ -20,5 +20,4 @@ router.use('/cart', cartRoutes);
 router.use('/paypal', paypalRoutes);
 router.use('/order', orderRoutes);
 router.use('/mail', mailerRoutes);
-
 export default router;
