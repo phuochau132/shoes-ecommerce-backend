@@ -79,7 +79,7 @@ router
         });
 
         return res.status(StatusCodes.OK).json({
-          message: result.message,
+          message: 'Wishlist added successfully',
           data: result,
         });
       } catch (error) {
@@ -103,7 +103,8 @@ router
         });
 
         return res.status(StatusCodes.OK).json({
-          message: result.message,
+          message: 'Wishlist removed successfully',
+          data: result,
         });
       } catch (error) {
         return next(error);

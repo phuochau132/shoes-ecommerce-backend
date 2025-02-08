@@ -117,18 +117,25 @@ export default class UserService {
         message: 'Product Not Found',
       });
     }
-    const user = await this.userRepository.findOneOrFail(userParam.id);
+    const user = await this.userRepository.findOneOrFail(userParam.id, {
+      relations: ['wishlists'],
+    });
     if (user) {
-      await this.wishlistRepository.save({
+      const wishlist = await this.wishlistRepository.save({
         product_id: productId,
         user,
       });
+      const newWishlist = {
+        product_id: productId,
+        id: wishlist.id,
+      };
+      return { wishlists: [newWishlist, ...user.wishlists] };
     }
-    return { message: 'Wishlist added successfully' };
   }
   async removeWishList({ id, userParam }: { id: number; userParam: User }) {
     const user = await this.userRepository.findOneOrFail({
       where: { id: userParam.id },
+      relations: ['wishlists'],
     });
 
     const wishlist = await this.wishlistRepository.findOne({
@@ -144,6 +151,8 @@ export default class UserService {
 
     await this.wishlistRepository.remove(wishlist);
 
-    return { message: 'Wishlist removed successfully' };
+    return {
+      wishlists: user.wishlists.filter((wishlist) => wishlist.id != id),
+    };
   }
 }
