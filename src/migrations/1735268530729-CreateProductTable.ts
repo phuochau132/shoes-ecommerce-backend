@@ -15,6 +15,7 @@ export class CreateProductTable1735268530729 implements MigrationInterface {
             isGenerated: true,
             generationStrategy: 'increment',
           },
+       
           {
             name: 'title',
             type: 'varchar',
@@ -39,6 +40,12 @@ export class CreateProductTable1735268530729 implements MigrationInterface {
             name: 'vendor',
             type: 'varchar',
             isNullable: false,
+          },
+          {
+            name: 'label',
+            type: 'enum',
+            enum: ['new', 'sale', 'featured'],
+            isNullable: true,
           },
           {
             name: 'quantity',

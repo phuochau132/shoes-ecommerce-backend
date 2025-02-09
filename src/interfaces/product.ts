@@ -8,3 +8,8 @@ export interface FormattedProduct {
   reviews: any[];
   variants: { id: number; options: OptionValue[] }[];
 }
+export enum ProductLabel {
+  NEW = 'new',
+  SALE = 'sale',
+  FEATURED = 'featured',
+}
