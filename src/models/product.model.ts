@@ -10,6 +10,7 @@ import Timestamp from '.';
 import User from './user.model';
 import Collection from './collection.model';
 import { decimalTransformer } from '@/utils/decimalTransformerl';
+import { ProductLabel } from '@/interfaces/product';
 
 // Product Entity
 @Entity('product')
@@ -28,6 +29,9 @@ export default class Product {
 
   @Column({ type: 'varchar', nullable: false })
   handle: string;
+
+  @Column({ type: 'enum', enum: ProductLabel, nullable: true })
+  label?: ProductLabel;
 
   @Column({ type: 'varchar', nullable: false })
   vendor: string;
