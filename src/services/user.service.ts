@@ -48,7 +48,7 @@ export default class UserService {
       ...user,
       image:
         user.image == 'default_image.png'
-          ? `http://localhost:8080/static/images/${user.image}`
+          ? `${process.env.SERVER_URL}/static/images/${user.image}`
           : user.image,
     };
   }
