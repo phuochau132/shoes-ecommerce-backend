@@ -1,26 +1,27 @@
-<div align="center">
-  <h1>Silvery API</h1>
-  <p>🛒 E-Commerce API built with Express, TypeORM, Midtrans, and Typescript </p>
-</div>
+
+# Shoes E-Commerce API
+
+🛒 E-Commerce API built with Express, MySQL, and Typescript
 
 ## Features
 
-- 🔑 Multi role authentication + refresh token
-- 🛒 Cart
-- 📦 Product management
-- 🧾 Transaction tracking
+- 🔑 Authentication with JWT (Registration, Login, Logout, Forgot Password)
+- 🛒 Cart and Order Management
+- 📦 Product and Collection Management
+- 👤 User Profile and Wishlist
+- 📧 Contact & Support
 
-See the frontend repository [here](https://github.com/rizqitsani/silvery-frontend)
+See the frontend repository [here](https://github.com/phuochau132/shoes-ecommerce-frontend)
 
 ## Getting Started
 
 1. Clone this repository
 
     ```bash
-    git clone https://github.com/rizqitsani/silvery-backend.git
+    git clone https://github.com/phuochau132/shoes-ecommerce-backend.git
     ```
 
-2. Copy .env.example to .env
+2. Copy `.env.example` to `.env` and configure the environment variables.
 
 3. Install dependencies
 
@@ -38,15 +39,46 @@ See the frontend repository [here](https://github.com/rizqitsani/silvery-fronten
 
 ## Built With
 
-- Express
-- Typescript
-- TypeORM
+- React.js (Frontend)
+- Redux, RTK Query
+- Express.js
 - MySQL
-- Dependency injection with [TypeDI](https://docs.typestack.community/typedi/01-getting-started)
-- File upload with [Multer](https://github.com/expressjs/multer)
-- Jest
-- E2E testing with [Supertest](https://github.com/visionmedia/supertest)
+- TypeScript
+- Dependency Injection
+- File Upload with Multer
 
 ## API Documentation
 
-https://documenter.getpostman.com/view/12766691/UVXkpFTK
+TBA (Add link here)
+
+## Functionalities
+
+### 🔐 Authentication
+- User Registration, Login, Logout
+- Forgot Password Recovery
+- JWT Authentication & Refresh Token
+
+### 👤 User Management
+- Update Profile
+- View Order History
+- Manage Wishlist
+
+### 🛒 Product & Cart
+- Browse Products
+- Filter & Search
+- Quick View in Cart
+- Add to Cart (with variants)
+- Place Orders
+
+### 🏷 Collection Management
+- View Collections
+- Filter Products by Variant, Price, and Other Attributes
+
+### 📧 Contact & Support
+- Send Inquiries via Email
+
+## Live Preview
+
+Check out the live preview [here](https://shoes-ecommerce-frontend.onrender.com/)
+```
+
