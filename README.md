@@ -39,7 +39,6 @@ See the frontend repository [here](https://github.com/phuochau132/shoes-ecommerc
 
 ## Built With
 
-- Redux, RTK Query
 - Express.js
 - MySQL
 - TypeScript
