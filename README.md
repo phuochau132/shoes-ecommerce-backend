@@ -39,13 +39,12 @@ See the frontend repository [here](https://github.com/phuochau132/shoes-ecommerc
 
 ## Built With
 
-- React.js (Frontend)
 - Redux, RTK Query
 - Express.js
 - MySQL
 - TypeScript
 - Dependency Injection
-- File Upload with Multer
+- Typeorm
 
 ## API Documentation
 
