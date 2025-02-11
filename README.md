@@ -45,9 +45,13 @@ See the frontend repository [here](https://github.com/phuochau132/shoes-ecommerc
 - Dependency Injection
 - Typeorm
 
-## API Testing
+## 📌 API Testing  
 
-[TBA (Add link here)](https://www.postman.com/nguyenhauxmvt/shoes-shop)
+You can test the API using Postman with the collection below:  
+
+🔗 **Postman Collection**: [Shoes E-Commerce API Collection](https://www.postman.com/nguyenhauxmvt/shoes-shop)  
+
+Make sure to set up the required environment variables before testing the endpoints. 🚀  
 
 ## Functionalities
 
