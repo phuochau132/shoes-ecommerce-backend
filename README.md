@@ -45,9 +45,9 @@ See the frontend repository [here](https://github.com/phuochau132/shoes-ecommerc
 - Dependency Injection
 - Typeorm
 
-## API Documentation
+## API Testing
 
-TBA (Add link here)
+[TBA (Add link here)](https://www.postman.com/nguyenhauxmvt/shoes-shop)
 
 ## Functionalities
 
